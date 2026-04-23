@@ -1,0 +1,21 @@
+workflows:
+  rozhelp-android:
+    name: RozHelp Android Build
+    max_build_duration: 60
+    environment:
+      flutter: stable
+      vars:
+        PACKAGE_NAME: "com.rozhelp.app"
+    scripts:
+      - name: Prepare Flutter project
+        script: |
+          flutter create --platforms=android .
+          flutter pub get
+      - name: Set local properties
+        script: |
+          echo "flutter.sdk=$HOME/programs/flutter" > android/local.properties || true
+      - name: Build APK
+        script: |
+          flutter build apk --release
+    artifacts:
+      - build/**/outputs/**/*.apk
